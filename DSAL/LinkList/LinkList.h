@@ -19,6 +19,8 @@ class Linked_List{
         int Search_List(T);
         void Push_Front(T);
         void Pop_Front();
+        void Push_Back(T);
+        void Pop_Back();
 };
 
 template <typename T>
@@ -88,6 +90,50 @@ void Linked_List<T>::Pop_Front(){
         Node<T> *tmp = First;
         First = First->Next;
         delete tmp;
+    }
+}
+
+template <typename T>
+void Linked_List<T>::Push_Back(T value){
+    if(First == nullptr)
+    {
+        // Push_Front(value);
+        Node<T>* new_node = new Node<T>{value, First};
+        // new_node->Data = value;
+        // new_node->Next = First;
+        First = new_node;
+    }
+    else
+    {
+        Node<T> *current = First;
+        while(current->Next != nullptr)
+        {
+            current = current->Next;
+        }
+        current->Next = new Node<T>{value,nullptr};
+    }
+}
+
+template <typename T>
+void Linked_List<T>::Pop_Back(){
+    if(First == nullptr)
+    {
+        return;
+    }
+    else
+    {
+        Node<T> *current = First;
+        if(current->Next == nullptr)
+        {
+            delete First;
+            First = nullptr;
+            return;
+        }
+        while(current->Next->Next != nullptr){
+            current = current->Next;
+        }
+        delete current->Next;
+        current->Next = nullptr;
     }
 }
 
