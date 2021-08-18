@@ -20,13 +20,20 @@ int main()
     List.Push_Back(1);
     List.Push_Back(2);
     List.Push_Back(3);
+    List.Push_Back(4);
+    List.Push_Back(5);
+    List.Push_Back(6);
+    List.Push_Back(7);
+    List.Push_Back(8);
+    List.Push_Back(9);
     List.Print_List();
-    List.Pop_Back();
-    List.Pop_Back();
-    List.Print_List();
-    List.Pop_Back();
-    List.Pop_Back();
-    List.Print_List();
+
+    Linked_List<int>::Iterator iter1 = Find(List,3);
+    Linked_List<int>::Iterator iter2 = Find(List,7);
+
+    for(; iter1 != iter2; iter1++){
+        cout<< *iter1 <<endl;
+    }
 
     return 0;
 }
