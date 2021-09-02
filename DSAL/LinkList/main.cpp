@@ -31,6 +31,15 @@ int main()
     Linked_List<int>::Iterator iter1 = Find(List,3);
     Linked_List<int>::Iterator iter2 = Find(List,7);
 
+    List.Insert(Find(List,4),100);
+    for(; iter1 != iter2; iter1++){
+        cout<< *iter1 <<endl;
+    }
+    List.Erase(Find(List,4));
+
+    iter1 = Find(List,3);
+    iter2 = Find(List,7);
+
     for(; iter1 != iter2; iter1++){
         cout<< *iter1 <<endl;
     }

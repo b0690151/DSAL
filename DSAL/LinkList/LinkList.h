@@ -18,6 +18,7 @@ class Linked_List{
     public:
         class Iterator
         {
+            friend Linked_List;
             private:
                 Node<T>* iter;
             public:
@@ -42,12 +43,36 @@ class Linked_List{
         void Pop_Back();
         void Clear();
         void Reverse();
-        void Insert(Iterator, T);
+        void Insert(Iterator, const T &);
         void Erase(Iterator);
         void Remove(T);
         template <typename T2> friend typename Linked_List<T2>::Iterator Find(Linked_List<T2> List, T2 data);
 
 };
+
+template<typename T>
+void Linked_List<T>::Insert(Iterator it, const T& value)
+{
+    //TODO cannot use to push front/tail
+    Node<T> *new_node = new Node<T>{value, it.iter->Prev, it.iter};
+    it.iter->Prev->Next = new_node;
+    it.iter->Prev = new_node;
+}
+
+template<typename T>
+void Linked_List<T>::Erase(Iterator it)
+{
+    //TODO cannot use to pop front/tail
+    it.iter->Prev->Next = it.iter->Next;
+    it.iter->Next->Prev = it.iter->Prev;
+    delete it.iter;
+}
+
+template<typename T>
+void Linked_List<T>::Remove(T value)
+{
+
+}
 
 template <typename T>
 typename Linked_List<T>::Iterator Find(Linked_List<T> List, T data){
