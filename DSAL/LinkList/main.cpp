@@ -25,8 +25,14 @@ int main()
     List.Push_Back(6);
     List.Push_Back(7);
     List.Push_Back(8);
-    List.Push_Back(9);
+    List.Push_Back(8);
+    List.Remove(8);
     List.Print_List();
+
+    auto iter = Begin(List);
+    Advance(iter,3);
+    cout << *iter <<endl;
+
 
     Linked_List<int>::Iterator iter1 = Find(List,3);
     Linked_List<int>::Iterator iter2 = Find(List,7);

@@ -1,6 +1,8 @@
 #ifndef LINKED_LIST_H_INCLUDED
 #define LINKED_LIST_H_INCLUDED
 #include <iostream>
+#include "Funciton.h"
+
 using namespace std;
 
 template <typename T>
@@ -46,14 +48,52 @@ class Linked_List{
         void Insert(Iterator, const T &);
         void Erase(Iterator);
         void Remove(T);
-        template <typename T2> friend typename Linked_List<T2>::Iterator Find(Linked_List<T2> List, T2 data);
+        Iterator Begin();
+        Iterator End();
+        Iterator Head_Iter();
+        Iterator Tail_Iter();
+        //template <typename T2> friend typename Linked_List<T2>::Iterator Find(Linked_List<T2> List, T2 data);
 
 };
 
 template<typename T>
+typename Linked_List<T>::Iterator Linked_List<T>::Head_Iter()
+{
+    return Iterator(Head);
+}
+
+template<typename T>
+typename Linked_List<T>::Iterator Linked_List<T>::Tail_Iter()
+{
+    return Iterator(Tail);
+}
+
+template<typename T>
+typename Linked_List<T>::Iterator Linked_List<T>::Begin()
+{
+    return Iterator(Head);
+}
+
+template<typename T>
+typename Linked_List<T>::Iterator Linked_List<T>::End()
+{
+    return Iterator(nullptr);
+}
+
+template<typename T>
 void Linked_List<T>::Insert(Iterator it, const T& value)
 {
-    //TODO cannot use to push front/tail
+
+    if (it == Begin())
+    {
+        Push_Front(value);
+        return;
+    }
+    if(it == End()){
+        Push_Back(value);
+        return;
+    }
+    //here cannot use to push front/tail
     Node<T> *new_node = new Node<T>{value, it.iter->Prev, it.iter};
     it.iter->Prev->Next = new_node;
     it.iter->Prev = new_node;
@@ -62,7 +102,16 @@ void Linked_List<T>::Insert(Iterator it, const T& value)
 template<typename T>
 void Linked_List<T>::Erase(Iterator it)
 {
-    //TODO cannot use to pop front/tail
+    if (it == Begin())
+    {
+        Pop_Front();
+        return;
+    }
+    if(it == End()|| it == Iterator(Tail)){
+        Pop_Back();
+        return;
+    }
+    //here cannot use to pop front/tail
     it.iter->Prev->Next = it.iter->Next;
     it.iter->Next->Prev = it.iter->Prev;
     delete it.iter;
@@ -71,21 +120,37 @@ void Linked_List<T>::Erase(Iterator it)
 template<typename T>
 void Linked_List<T>::Remove(T value)
 {
+    for (auto iter = Begin(); iter != End(); iter++)
+    {
+        if(*iter == value)
+        {
+            if(iter == Begin())
+            {
+                Pop_Front();
+            }
+            else
+            {
+                auto tmp = iter;
+                tmp--;
+                Erase(iter);
+                iter = tmp;
+            }
 
+        }
+    }
 }
 
 template <typename T>
 typename Linked_List<T>::Iterator Find(Linked_List<T> List, T data){
     typename Linked_List<T>::Iterator null_iter(nullptr);
 
-    if(List.Head == nullptr)
+    if(List.Begin() == nullptr)
     {
         return null_iter;
     }
     else
     {
-        typename Linked_List<T>::Iterator current(List.Head);
-        typename Linked_List<T>::Iterator tail_iter(List.Tail);
+        auto current = List.Begin();
         while(current != null_iter)
         {
             if(*current == data)
